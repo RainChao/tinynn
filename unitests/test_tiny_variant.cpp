@@ -32,14 +32,14 @@ struct Data {
 };
 
 TEST_F(Variant, contains) {
-    bool ret = ::std::Contains<int, int, double>::value;
+    bool ret = ::tinystl::Contains<int, int, double>::value;
     EXPECT_TRUE(ret);
-    ret = ::std::Contains<char, int, double>::value;
+    ret = ::tinystl::Contains<char, int, double>::value;
     EXPECT_TRUE(!ret);
 }
 
 TEST_F(Variant, constructor) {
-    using V1 = ::std::variant<int, double, ::std::string, Data>;
+    using V1 = ::tinystl::variant<int, double, ::std::string, Data>;
     V1 var1(12);
     EXPECT_TRUE(var1.is<int>() and var1 == 12);
 
@@ -65,7 +65,7 @@ TEST_F(Variant, constructor) {
 }
 
 TEST_F(Variant, assign_op) {
-    using V1 = ::std::variant<int, double, ::std::string, Data>;
+    using V1 = ::tinystl::variant<int, double, ::std::string, Data>;
     V1 var1;
     Data data(11);
     var1 = data; 
@@ -87,7 +87,7 @@ TEST_F(Variant, assign_op) {
 }
 
 TEST_F(Variant, get) {
-    using V1 = ::std::variant<int, double, ::std::string, Data>;
+    using V1 = ::tinystl::variant<int, double, ::std::string, Data>;
     V1 var1;
     const Data data(11);
     var1 = data; 
@@ -99,7 +99,7 @@ TEST_F(Variant, get) {
 }
 
 TEST_F(Variant, type_get) {
-    using V1 = ::std::variant<int, double, ::std::string, Data>;
+    using V1 = ::tinystl::variant<int, double, ::std::string, Data>;
     EXPECT_TRUE(::std::type_index(typeid(typename V1::ValueType<0>)) == ::std::type_index(typeid(int)));
     EXPECT_TRUE(::std::type_index(typeid(typename V1::ValueType<3>)) == ::std::type_index(typeid(Data)));
 }
@@ -109,16 +109,16 @@ TEST_F(Variant, function_trait) {
     using GeneralFunctionT = int(char);
     typedef int(*Pointer)(char);
 
-    EXPECT_TRUE(::std::Function_Traits<::std::function<int(void)>>::ArgNum == 0);
-    EXPECT_TRUE(::std::Function_Traits<::std::function<int(int)>>::ArgNum == 1);
+    EXPECT_TRUE(::tinystl::Function_Traits<::std::function<int(void)>>::ArgNum == 0);
+    EXPECT_TRUE(::tinystl::Function_Traits<::std::function<int(int)>>::ArgNum == 1);
     
-    using ExpectedRet = typename ::std::Function_Traits<FunctionT>::Ret;
+    using ExpectedRet = typename ::tinystl::Function_Traits<FunctionT>::Ret;
     EXPECT_TRUE(::std::type_index(typeid(ExpectedRet)) == ::std::type_index(typeid(int)));
 
-    using ExpectedPointer = typename ::std::Function_Traits<FunctionT>::Pointer;
+    using ExpectedPointer = typename ::tinystl::Function_Traits<FunctionT>::Pointer;
     EXPECT_TRUE(::std::type_index(typeid(ExpectedPointer)) == ::std::type_index(typeid(Pointer)));
 
-    using ExpectedGeneralFunctionT = typename ::std::Function_Traits<FunctionT>::FunctionType;
+    using ExpectedGeneralFunctionT = typename ::tinystl::Function_Traits<FunctionT>::FunctionType;
     EXPECT_TRUE(::std::type_index(typeid(ExpectedGeneralFunctionT)) == ::std::type_index(typeid(GeneralFunctionT)));
 }
 }

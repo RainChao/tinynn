@@ -14,8 +14,8 @@ namespace tinystl {
 template<typename... Types>
 class variant {
 public:
-    static const size_t data_size = ::std::IntegerMax<sizeof(Types)...>::value;
-    static const size_t align_size = ::std::MaxAlign<Types...>::value;
+    static const size_t data_size = ::tinystl::IntegerMax<sizeof(Types)...>::value;
+    static const size_t align_size = ::tinystl::MaxAlign<Types...>::value;
     using date_t = typename ::std::aligned_storage<data_size, align_size>::type;
 
     //defalut constructor
@@ -34,7 +34,7 @@ public:
     }
     //general constructor
     template<typename T, 
-    typename = typename ::std::enable_if<::std::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
+    typename = typename ::std::enable_if<::tinystl::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
     variant(T&& val) : type_index_(typeid(void)) {
         using U = typename ::std::decay<T>::type;
         type_index_ = ::std::type_index(typeid(U));
@@ -62,7 +62,7 @@ public:
     }
     //general assignment
     template<typename T, 
-    typename = typename ::std::enable_if<::std::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
+    typename = typename ::std::enable_if<::tinystl::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
     variant<Types...>& operator=(T&& val) {
         using U = typename ::std::decay<T>::type;
         destroy(type_index_);
@@ -72,7 +72,7 @@ public:
     }
     //const assignment
     template<typename T, 
-    typename = typename ::std::enable_if<::std::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
+    typename = typename ::std::enable_if<::tinystl::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
     variant<Types...>& operator=(const T& val) {
         using U = typename ::std::decay<T>::type;
         destroy(type_index_);
@@ -104,7 +104,7 @@ public:
 
     //compare operator
     template<typename T, 
-    typename = typename ::std::enable_if<::std::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
+    typename = typename ::std::enable_if<::tinystl::Contains<typename ::std::decay<T>::type, Types...>::value>::type>
     bool operator==(T&& val) {
         using U = typename ::std::decay<T>::type;
         if (is<U>() and

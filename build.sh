@@ -15,4 +15,4 @@ done
 
 echo "src files:" $cpp_file
 
-/opt/compiler/gcc-8.2/bin/g++ -o tinynn_main $cpp_file -std=c++2a -lpthread -I. -I thirdparty/gflags/include/ -I thirdparty/gtest/include/ -L thirdparty/gflags/lib/ -L thirdparty/gtest/lib/ -lgflags -lgtest -lgtest_main
+/opt/compiler/gcc-8.2/bin/g++ -o tinynn_main $cpp_file -std=c++2a -lpthread -I src/ -I thirdparty/gflags/include/ -I thirdparty/gtest/include/ -L thirdparty/gflags/lib/ -L thirdparty/gtest/lib/ -lgflags -lgtest -lgtest_main
